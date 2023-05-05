@@ -1,1 +1,0 @@
-# washingtonalto.github.io
