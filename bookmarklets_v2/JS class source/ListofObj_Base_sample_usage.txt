@@ -1,0 +1,21 @@
+const schema = {
+  "Link Text": "innerText",
+  "URL": "href",
+  "Upper Text": el => el.innerText.toUpperCase()
+};
+
+const links = document.querySelectorAll("a");
+
+/* HTML Table */
+const table = new ListofObj_to_Table(schema, links);
+table.setTitle("Links Table");
+const tableHTML = table.render();
+
+/* Delimited Text */
+const text = new ListofObj_to_DelimitedText(
+  schema,
+  links,
+  { columnDelimiter: " | " }
+);
+text.setTitle("Links Text");
+const textOutput = text.render();
