@@ -18,6 +18,65 @@
          */
 
         /**
+         * Converts a string into a filename-safe value for Windows and Linux.
+         *
+         * Best practices applied:
+         *  - Removes illegal characters
+         *  - Normalizes whitespace
+         *  - Prevents trailing dots/spaces (Windows)
+         *  - Avoids Windows reserved device names
+         *  - Preserves readability
+         *
+         * @param {string} input - Raw filename string
+         * @param {Object} [options]
+         * @param {string} [options.replacement="_"] - Replacement for illegal characters
+         * @param {number} [options.maxLength=255] - Maximum filename length
+         * @returns {string} Safe filename
+         */
+        function sanitizeFileName(input, options = {}) {
+            const {
+                replacement = "_",
+                maxLength = 255
+            } = options;
+
+            if (!input || typeof input !== "string") {
+                return "file";
+            }
+
+            let name = input
+                .normalize("NFKD") // Normalize accented characters
+                .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
+                .replace(/[\x00-\x1F]/g, "") // Remove control chars
+                .replace(/[\\\/:*?"<>|]/g, replacement) // Illegal Windows chars
+                .replace(/\s+/g, " ") // Collapse whitespace
+                .trim();
+
+            // Remove trailing dots and spaces (Windows)
+            name = name.replace(/[. ]+$/, "");
+
+            // Prevent empty filenames
+            if (!name) {
+                name = "file";
+            }
+
+            // Avoid Windows reserved device names
+            const windowsReserved = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i;
+            if (windowsReserved.test(name)) {
+                name = `${name}_file`;
+            }
+
+            // Enforce max length (preserve extension if present)
+            if (name.length > maxLength) {
+                const extMatch = name.match(/(\.[^.]+)$/);
+                const ext = extMatch ? extMatch[1] : "";
+                const base = name.slice(0, maxLength - ext.length);
+                name = base + ext;
+            }
+
+            return name;
+        }
+
+        /**
          * Safely validates whether a dotted path resolves to an object.
          *
          * @param {string} objPath - Dot-delimited object path (e.g. "document.location")
@@ -246,11 +305,11 @@
              */
             static setDivStyle(divBackgroundcolor, divPropertycolor) {
                 return `
-                    <STYLE>
-                        .propertyname { font-weight: bold; color: ${divPropertycolor}; }
-                        .outputarea { background-color: ${divBackgroundcolor}; }
-                    </STYLE>
-                `;
+            <STYLE>
+                .propertyname { font-weight: bold; color: ${divPropertycolor}; }
+                .outputarea { background-color: ${divBackgroundcolor}; }
+            </STYLE>
+        `;
             }
 
             /**
@@ -311,9 +370,10 @@
              *
              * @param {string} [divBackgroundcolor="lightblue"]
              * @param {string} [divPropertycolor="blue"]
+             * @param {string} [jsonFileName="download.json"]
              * @returns {string} HTML output
              */
-            display(divBackgroundcolor = "lightblue", divPropertycolor = "blue") {
+            display(divBackgroundcolor = "lightblue", divPropertycolor = "blue", jsonFileName = "download.json") {
                 let html = `<STRONG>Object selected</STRONG>: ${this.inputObjname}`;
 
                 html += Obj_to_JSON.setDivStyle(
@@ -323,7 +383,7 @@
                 html += Obj_to_JSON.recursiveObjformat(this.inputObj);
 
                 const json = Obj_to_JSON.createobjJSON(this);
-                html += Obj_to_JSON.createJSONBloblink(json);
+                html += Obj_to_JSON.createJSONBloblink(json, jsonFileName);
 
                 return html;
             }
@@ -352,10 +412,10 @@
                 const url = URL.createObjectURL(blob);
 
                 return `
-                    <A href="${url}" download="${jsonFileName}">
-                        Download as JSON
-                    </A><BR><BR>
-                `;
+            <A href="${url}" download="${jsonFileName}">
+                Download as JSON
+            </A><BR><BR>
+        `;
             }
         }
 
@@ -375,9 +435,10 @@
                 "WLA JavaScript Object to JSON Scraper Tool ver 1");
 
         let html = page.displayPageHeaders();
+		let defaultjsonFileName = sanitizeFileName(objtoscrape)+".json";
 
         if (validateObjectPath(objtoscrape)) {
-            html += new Obj_to_JSON(objtoscrape).display();
+            html += new Obj_to_JSON(objtoscrape).display(undefined,undefined,defaultjsonFileName);
         } else {
             html += "Invalid object selected: " + objtoscrape;
         }

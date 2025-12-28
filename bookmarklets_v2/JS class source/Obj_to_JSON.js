@@ -90,9 +90,10 @@ class Obj_to_JSON {
      *
      * @param {string} [divBackgroundcolor="lightblue"]
      * @param {string} [divPropertycolor="blue"]
+	 * @param {string} [jsonFileName="download.json"]
      * @returns {string} HTML output
      */
-    display(divBackgroundcolor = "lightblue", divPropertycolor = "blue") {
+    display(divBackgroundcolor = "lightblue", divPropertycolor = "blue",jsonFileName = "download.json") {
         let html = `<STRONG>Object selected</STRONG>: ${this.inputObjname}`;
 
         html += Obj_to_JSON.setDivStyle(
@@ -102,7 +103,7 @@ class Obj_to_JSON {
         html += Obj_to_JSON.recursiveObjformat(this.inputObj);
 
         const json = Obj_to_JSON.createobjJSON(this);
-        html += Obj_to_JSON.createJSONBloblink(json);
+        html += Obj_to_JSON.createJSONBloblink(json,jsonFileName);
 
         return html;
     }
