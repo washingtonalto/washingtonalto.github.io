@@ -11,6 +11,45 @@ function resolvePath(root, path) {
     .split(".")
     .reduce((acc, key) => acc && acc[key], root);
 }
+/**
+ * ============================================================
+ * Class: BrowserTab
+ * ============================================================
+ * Utility class responsible for safely opening a new browser
+ * tab (or window) and injecting HTML content into it.
+ *
+ * Designed specifically for bookmarklet usage with:
+ * - Popup-blocker handling
+ * - Cross-browser compatibility
+ * - Simple static API
+ */
+class BrowserTab {
+
+    /**
+     * Opens a new browser tab and writes a full HTML document.
+     *
+     * @param {string} htmlContent - Fully composed HTML string
+     * @param {string} [windowName="_blank"] - Optional window name
+     * @returns {void}
+     */
+    static openWithHTML(htmlContent, windowName = "_blank") {
+        const win = window.open("", windowName);
+
+        if (!win) {
+            alert("Popup blocked. Please allow popups for this site.");
+            return;
+        }
+
+        try {
+            win.document.open();
+            win.document.write(htmlContent);
+            win.document.close();
+            win.focus();
+        } catch (error) {
+            console.error("BrowserTab error:", error);
+        }
+    }
+}
 
 /**
  * ============================================================
@@ -136,8 +175,8 @@ class ListofObj_to_Table extends ListofObj_Base {
     /**
      * Generates inline CSS styles for the table.
      */
-            static tableStyle(headerBackgroundColor = "#FFC107") {
-                return `
+    static tableStyle(headerBackgroundColor = "#FFC107") {
+        return `
       <STYLE>
         table, th, td {
           border: 1px solid #9E9E9E;
@@ -261,8 +300,8 @@ class ListofObj_to_DelimitedText extends ListofObj_Base {
 
         return output;
     }
-
-    /**
+	
+	 /**
      * formats the string so that if it has double-quotes, it can be escaped properly for CSV formatting purposes
      * @param {string} inputString - string to be checked and formatted for quotes
      * @returns {string}
@@ -300,3 +339,29 @@ class ListofObj_to_DelimitedText extends ListofObj_Base {
     }
 
 }
+const schema = {
+    "Link Text": "innerText",
+    "URL": "href",
+    "Upper Text": el => el.innerText.toUpperCase()
+};
+
+const links = document.querySelectorAll("a");
+
+/* HTML Table */
+const table = new ListofObj_to_Table(schema, links);
+table.setTitle("Links Table");
+const tableHTML = table.render();
+
+/* Delimited Text */
+const text = new ListofObj_to_DelimitedText(
+        schema,
+        links, {
+        columnDelimiter: " | "
+    });
+text.setTitle("Links Text");
+const textOutput = text.render();
+let html = "";
+html += tableHTML;
+html += "<BR><BR><BR>";
+html += textOutput;
+BrowserTab.openWithHTML(html);

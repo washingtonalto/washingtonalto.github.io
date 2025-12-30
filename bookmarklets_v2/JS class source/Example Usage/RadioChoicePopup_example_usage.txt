@@ -1,0 +1,23 @@
+(async () => {
+  const popup = new RadioChoicePopup({
+    title: "Execution Mode",
+    message: "Choose how this bookmarklet should run:",
+    options: [
+      { label: "Analyze current page", value: "analyze" },
+      { label: "Export page data", value: "export" }
+    ]
+  });
+
+  const choice = await popup.show();
+
+  if (!choice) {
+    console.log("User cancelled");
+    return;
+  }
+
+  if (choice === "analyze") {
+    alert("Running analysis...");
+  } else {
+    alert("Exporting data...");
+  }
+})();
