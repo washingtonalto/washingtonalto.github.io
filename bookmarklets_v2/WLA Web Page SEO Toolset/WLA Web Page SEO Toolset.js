@@ -77,17 +77,6 @@
         }
 
         /**
-         * Safely validates whether a dotted path resolves to an object.
-         *
-         * @param {string} objPath - Dot-delimited object path (e.g. "document.location")
-         * @returns {boolean} True if resolved value is an object
-         */
-        function validateObjectPath(objPath) {
-            const value = resolvePath(globalThis, objPath);
-            return typeof value === "object" && value !== null;
-        }
-
-        /**
          * Safely resolves a dotted property path on an object.
          *
          * @param {Object} root - Root object (e.g., objItem, globalThis)
@@ -172,6 +161,47 @@
             });
 
             return collection;
+        }
+
+        /**
+         *  Get concatenates all converted H1 to H6 HTML Collections into one array for easier processing
+         * @returns  {Object} - Array-like collection of H1 to H6 headers
+         */
+        function getallH1toH6() {
+            let arrallH = new Array();
+            let arrH1 = Array.from(document.getElementsByTagName("H1"));
+            let arrH2 = Array.from(document.getElementsByTagName("H2"));
+            let arrH3 = Array.from(document.getElementsByTagName("H3"));
+            let arrH4 = Array.from(document.getElementsByTagName("H4"));
+            let arrH5 = Array.from(document.getElementsByTagName("H5"));
+            let arrH6 = Array.from(document.getElementsByTagName("H6"));
+            arrallH = arrH1
+                .concat(arrH2)
+                .concat(arrH3)
+                .concat(arrH4)
+                .concat(arrH5)
+                .concat(arrH6);
+            return arrallH;
+        }
+
+        /**
+         * Returns string of all response headers
+         * @returns {string}
+         */
+        function returnHTTPAllResponseHeaders(url) {
+            let strOutput;
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("HEAD", url, false);
+            try {
+                xmlHttp.send();
+            } catch (e) {
+                console.log("Error: " + e);
+            }
+            xmlHttp.onload = function () {
+                strOutput = xmlHttp.getAllResponseHeaders();
+            };
+            xmlHttp.onload();
+            return strOutput;
         }
 
         /* ============================================================
@@ -834,7 +864,7 @@
          */
 
         const popup = new RadioChoicePopup({
-            title: "SEO Web Page SEO Tool",
+            title: "SEO Web Page SEO Toolset",
             message: "Select the bookmarklet tool:",
             options: [{
                     label: "Link Tool",
@@ -851,6 +881,15 @@
                 }, {
                     label: "HTTP Resource Tool",
                     value: "HTTP Resource Tool"
+                }, {
+                    label: "H1 to H6 Header Tool",
+                    value: "H1 to H6 Header Tool"
+                }, {
+                    label: "Meta Tag Tool",
+                    value: "Meta Tag Tool"
+                }, {
+                    label: "HTTP Response Headers Tool",
+                    value: "HTTP Response Headers Tool"
                 }
             ]
         });
@@ -874,9 +913,9 @@
                 "Image Height": "height",
                 "Image Width": "width",
                 "Image Alt": "alt",
-				"Image Loading": "loading",
-				"Image srcset" : "srcset",
-				"Image sizes" : "sizes",
+                "Image Loading": "loading",
+                "Image srcset": "srcset",
+                "Image sizes": "sizes",
                 "Image attributes": "attributes"
             };
 
@@ -894,8 +933,8 @@
             tableschema = {
                 "Script id": "id",
                 "Script src": "src",
-				"Script async": "async",
-				"Script outerText": "outerText"
+                "Script async": "async",
+                "Script outerText": "outerText"
             };
 
         } else if (choice === "HTTP Resource Tool") {
@@ -904,6 +943,33 @@
             tableschema = {
                 "Resource Type": "initiatorType",
                 "Resource Name": "name"
+            };
+
+        } else if (choice === "H1 to H6 Header Tool") {
+
+            listofObject = getallH1toH6();
+            tableschema = {
+                "Name": "tagName",
+                "Content": el => el.innerText.trim(),
+                "Content Length": el => el.innerText.trim().length
+            };
+
+        } else if (choice === "Meta Tag Tool") {
+
+            listofObject = document.querySelectorAll("meta[name]");
+            tableschema = {
+                "Name": el => el.attributes.name.value,
+                "Content": el => String(el.attributes.content.value).trim(),
+                "Content Length": el => String(el.attributes.content.value).trim().length
+            };
+
+        } else if (choice === "HTTP Response Headers Tool") {
+
+            let responsetext = returnHTTPAllResponseHeaders(location.href);
+            listofObject = responsetext.split("\n");
+            listofObject.pop(); // removes last line which is always a blank because of the split function
+            tableschema = {
+                "Item-value Pair": el => el,
             };
 
         } else {
@@ -917,7 +983,7 @@
             "Page URL": location.href,
             "Page Name": document.title,
             "Tool choice": choice
-        }, "WLA Web Page SEO Tools ver 1");
+        }, "WLA Web Page SEO Toolset");
         let csvFileName = location.href + "_" + choice + ".csv";
         let html = page.displayPageHeaders();
         const htmlTable = new ListofObj_to_Table(tableschema, listofObject);

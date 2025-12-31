@@ -427,7 +427,7 @@
         const page = new PageProperty({
             "Page URL": location.href,
             "Page Name": document.title
-        }, "WLA Tealium Check Page Tool ver 1");
+        }, "WLA Tealium Check Page Tool");
 
         let html = page.displayPageHeaders();
         let customObj = {};

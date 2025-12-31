@@ -834,7 +834,7 @@
             "Page Name": document.title,
             "Web Scrape Method": webscrape_choice,
             "Web Scrape string": webscrape_string
-        }, "WLA CSS Selector and XPath Web Scraper Tool ver 1");
+        }, "WLA CSS Selector and XPath Web Scraper Tool");
 		let csvFileName = location.href+"_"+webscrape_choice+"_"+webscrape_string+".csv";
         let html = page.displayPageHeaders();
         const htmlTable = new ListofObj_to_Table(tableschema, listofObject);

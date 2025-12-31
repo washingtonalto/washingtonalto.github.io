@@ -432,7 +432,7 @@
             "Page URL": location.href,
             "Page Name": document.title
         },
-                "WLA JavaScript Object to JSON Scraper Tool ver 1");
+                "WLA JavaScript Object to JSON Scraper Tool");
 
         let html = page.displayPageHeaders();
 		let defaultjsonFileName = sanitizeFileName(objtoscrape)+".json";
