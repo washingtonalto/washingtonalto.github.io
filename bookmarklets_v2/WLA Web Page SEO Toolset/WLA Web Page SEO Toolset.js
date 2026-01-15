@@ -204,6 +204,93 @@
             return strOutput;
         }
 
+        /**
+         * Collects all CSS background-image URLs currently applied in the document.
+         *
+         * This function scans every element in the DOM and inspects its computed
+         * `background-image` CSS property. Any `url(...)` values found are extracted
+         * and returned as a list of structured objects, similar in concept to
+         * `document.images`, but for CSS background images.
+         *
+         * Key characteristics:
+         * - Resolves images from inline styles and external stylesheets
+         * - Supports multiple background images per element
+         * - Returns only images currently applied by the browser (after CSS resolution)
+         * - Safe to use in bookmarklets and browser consoles
+         *
+         * ⚠️ Limitations:
+         * - Does not inspect inactive media queries
+         * - Does not traverse Shadow DOM trees
+         * - Pseudo-elements (`::before`, `::after`) are not included by default
+         * - Background images defined via CSS variables are returned as resolved URLs only
+         *
+         * @function getBackgroundImages
+         * @returns {Array<Object>} List of background image descriptors
+         *
+         * @property {HTMLElement} element
+         *   The DOM element to which the background image is applied.
+         *
+         * @property {string} url
+         *   The resolved URL of the background image.
+         *
+         * @property {string} cssText
+         *   The full computed `background-image` CSS value.
+         *
+         * @property {string} tagName
+         *   The tag name of the element (e.g., "DIV", "SECTION").
+         *
+         * @property {string} className
+         *   The element’s class attribute value.
+         *
+         * @property {string} id
+         *   The element’s ID attribute value.
+         *
+         * @example
+         * // Basic usage
+         * const bgImages = getBackgroundImages();
+         * console.log(bgImages.length);
+         *
+         * @example
+         * // Log all background image URLs
+         * getBackgroundImages().forEach(img => {
+         *   console.log(img.url);
+         * });
+         *
+         * @example
+         * // Filter background images applied to DIVs only
+         * const divBackgrounds = getBackgroundImages().filter(
+         *   img => img.tagName === "DIV"
+         * );
+         */
+        function getBackgroundImages() {
+            const list = [];
+
+            document.querySelectorAll("*").forEach(el => {
+                const style = getComputedStyle(el);
+                const bg = style.backgroundImage;
+
+                if (!bg || bg === "none")
+                    return;
+
+                const urls = bg.match(/url\((['"]?)(.*?)\1\)/g);
+                if (!urls)
+                    return;
+
+                urls.forEach(entry => {
+                    list.push({
+                        element: el,
+                        url: entry.replace(/url\((['"]?)(.*?)\1\)/, "$2"),
+                        cssText: bg,
+                        tagName: el.tagName,
+                        className: el.className || "",
+                        id: el.id || ""
+                    });
+                });
+            });
+
+            return list;
+        }
+
         /* ============================================================
          * 2. Class Definitions
          * ============================================================
@@ -873,6 +960,9 @@
                     label: "Image Tool",
                     value: "Image Tool"
                 }, {
+                    label: "Background Image Tool",
+                    value: "Background Image Tool"
+                }, {
                     label: "Cookie Tool",
                     value: "Cookie Tool"
                 }, {
@@ -910,6 +1000,7 @@
             listofObject = document.images;
             tableschema = {
                 "Image URL": "src",
+                "Image": el => "<IMG width='200' src='" + el.src.trim() + "'>",
                 "Image Height": "height",
                 "Image Width": "width",
                 "Image Alt": "alt",
@@ -917,6 +1008,18 @@
                 "Image srcset": "srcset",
                 "Image sizes": "sizes",
                 "Image attributes": "attributes"
+            };
+
+        } else if (choice === "Background Image Tool") {
+
+            listofObject = getBackgroundImages();
+            tableschema = {
+                "Image URL": "url",
+                "Image": el => "<IMG width='200' src='" + el.url.trim() + "'>",
+                "CSS Text": "cssText",
+                "ID": "id",
+                "tagName": "tagName",
+                "className": "className"
             };
 
         } else if (choice === "Cookie Tool") {
@@ -981,7 +1084,8 @@
 
         const page = new PageProperty({
             "Page URL": location.href,
-            "Page Name": document.title,
+            "Page Title": document.title,
+            "Page Title Length": document.title.trim().length,
             "Tool choice": choice
         }, "WLA Web Page SEO Toolset");
         let csvFileName = location.href + "_" + choice + ".csv";
