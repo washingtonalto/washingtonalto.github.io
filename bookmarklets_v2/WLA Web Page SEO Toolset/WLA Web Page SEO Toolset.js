@@ -963,6 +963,9 @@
                     label: "Background Image Tool",
                     value: "Background Image Tool"
                 }, {
+                    label: "Link Tag Tool",
+                    value: "Link Tag Tool"
+                }, {
                     label: "Cookie Tool",
                     value: "Cookie Tool"
                 }, {
@@ -1020,6 +1023,15 @@
                 "ID": "id",
                 "tagName": "tagName",
                 "className": "className"
+            };
+
+        } else if (choice === "Link Tag Tool") {
+
+            listofObject = document.querySelectorAll("link");
+            tableschema = {
+                "Rel": "rel",
+                "Href": "href",
+                "Attributes": "attributes"
             };
 
         } else if (choice === "Cookie Tool") {

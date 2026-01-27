@@ -1,1 +1,182 @@
-(async()=>{if(['RadioChoicePopup','BrowserTab','PageProperty','ListofObj_Base','ListofObj_to_Table','ListofObj_to_DelimitedText'].every((e=>void 0===globalThis[e]))){class e{constructor({title:e='Choose an option',message:t='',options:o=[{label:'Option A',value:'A'},{label:'Option B',value:'B'}]}={}){this.title=e,this.message=t,this.options=o,this.id='radio-choice-popup'}show(){return new Promise((e=>{const t=document.getElementById(this.id);t&&t.remove();const o=document.createElement('div');o.id=this.id,o.innerHTML=`\n        <div style="\n          position:fixed;\n          inset:0;\n          background:rgba(0,0,0,0.45);\n          display:flex;\n          align-items:center;\n          justify-content:center;\n          z-index:2147483647;\n          font-family:Arial,sans-serif;\n        ">\n          <div style="\n            background:#fff;\n            padding:16px 18px;\n            width:320px;\n            border-radius:8px;\n            box-shadow:0 10px 25px rgba(0,0,0,.25);\n          ">\n            <div style="font-size:16px;font-weight:bold;margin-bottom:8px;">\n              ${this.title}\n            </div>\n\n            ${this.message?`<div style="margin-bottom:10px;font-size:13px;">${this.message}</div>`:''}\n\n            <form id="rcp-form">\n              ${this.options.map(((e,t)=>`\n                    <label style="display:block;margin:6px 0;font-size:13px;">\n                      <input\n                        type="radio"\n                        name="rcp"\n                        value="${e.value}"\n                        ${0===t?'checked':''}\n                      >\n                      ${e.label}\n                    </label>\n                  `)).join('')}\n\n              <div style="margin-top:12px;text-align:right;">\n                <button type="button" id="rcp-cancel">Cancel</button>\n                <button type="submit" style="margin-left:8px;">OK</button>\n              </div>\n            </form>\n          </div>\n        </div>\n      `,document.body.appendChild(o);const n=t=>{o.remove(),e(t)};o.querySelector('#rcp-cancel').onclick=()=>{n(null)},o.querySelector('#rcp-form').onsubmit=e=>{e.preventDefault();const t=o.querySelector('input[name="rcp"]:checked');n(t?t.value:null)}}))}}class t{static openWithHTML(e,t='_blank'){const o=window.open('',t);if(o)try{o.document.open(),o.document.write(e),o.document.close(),o.focus()}catch(e){}else alert('Popup blocked. Please allow popups for this site.')}}class o{pageTitle='';objProperty={};constructor(e,t=''){this.pageTitle=t,this.objProperty=e}displayPageHeaders(){let e=this.pageTitle,t='<TITLE>'+e+'</TITLE>';t+='<H1>'+e+'</H1>';for(let e in this.objProperty)t+='<STRONG>'+e+'</STRONG>: ',t+=o.formatObjvalues(this.objProperty[e])+'<BR>';return t+='<BR>',t}displayPageFooters(){return'\n                    <BR><BR>\n                    <DIV style=\'text-align: center;\'>\n                        <CITE>Copyright: (c) 2026, Washington Alto</CITE>\n                    </DIV>\n                '}static isValidHttpUrl(e){try{const t=new URL(e);return'http:'===t.protocol||'https:'===t.protocol}catch(e){return!1}}static formatObjvalues(e){const t={'&':'&amp;','<':'&lt;','>':'&gt;'},n=e=>t[e]||e;let l;return l=o.isValidHttpUrl(e)?`\n                        <A HREF="${e}" target="_blank">\n                            ${decodeURIComponent(e)}\n                        </A>\n                    `:null==e||0===String(e).trim().length?'':String(e).trim().replace(/[&<>]/g,n),l}}class n{header=['No.'];fields=[];collection=[];schema=[];title='';constructor(e,t){this.header=this.header.concat(Object.keys(e)),this.fields=Object.values(e),this.collection=t,this.schema=e}setTitle(e=''){this.title=e}resolveField(e,t){return'function'==typeof t?t(e):(o=e,t.split('.').reduce(((e,t)=>e&&e[t]),o));var o}buildRows(){const e=[];for(let t=0;t<this.collection.length;t++){const o=this.collection[t],n=this.fields.map((e=>this.resolveField(o,e)));e.push([t+1,...n])}return e}static formatValue(e){return null==e?'':'object'==typeof e?Array.from(e).map((e=>`${e.name}: ${e.value}`)).join('; '):String(e).trim()}}class l extends n{objCSV='';static tableStyle(e='#FFC107'){return`\n      <STYLE>\n        table, th, td {\n          border: 1px solid #9E9E9E;\n          border-collapse: collapse;\n        }\n        th { background: ${e}; }\n      </STYLE>\n    `}render(e='download.csv'){let t='';this.title&&(t+=`<H1>${this.title}</H1>`),t+=l.tableStyle(),t+='<TABLE><TR>',this.header.forEach((e=>t+=`<TH>${e}</TH>`)),t+='</TR>';this.buildRows().forEach((e=>{t+='<TR>',e.forEach((e=>{t+=`<TD>${n.formatValue(e)}</TD>`})),t+='</TR>'})),t+='</TABLE><BR>';const o=new i(this.schema,this.collection,{columnDelimiter:',',rowDelimiter:'\r\n'});return this.objCSV=o.render(),t+=l.createCSVBloblink(this.objCSV,e),t}static createCSVBloblink(e,t='download.csv'){let o=new Blob([e],{type:'text/csv'});return'<A href="'+window.URL.createObjectURL(o)+'" download="'+t+'">Download as CSV</A>'}}class i extends n{constructor(e,t,o={}){super(e,t),this.columnDelimiter=o.columnDelimiter??',',this.rowDelimiter=o.rowDelimiter??'<BR>'}render(){let e='';this.title&&(e+=`<STRONG>${this.title}</STRONG>`+this.rowDelimiter),e+=this.header.join(this.columnDelimiter)+this.rowDelimiter;return this.buildRows().forEach((t=>{e+=t.map((e=>n.formatValue(i.escapeForCSV(i.formatCSVcellvalues(e))))).join(this.columnDelimiter)+this.rowDelimiter})),e}static escapeForCSV(e){return/[",\n]/.test(e)?'"'+e.replace(/"/g,'""')+'"':e}static formatCSVcellvalues(e){let t;return t='object'==typeof e?function(e){let t='';for(let o=0;o<e.length;o++)t+=e[o].name+': '+e[o].value+';\n\r';return t}(e):String(e).trim(),t}}const a=new e({title:'SEO Web Page SEO Toolset',message:'Select the bookmarklet tool:',options:[{label:'Link Tool',value:'Link Tool'},{label:'Image Tool',value:'Image Tool'},{label:'Background Image Tool',value:'Background Image Tool'},{label:'Cookie Tool',value:'Cookie Tool'},{label:'Script Tool',value:'Script Tool'},{label:'HTTP Resource Tool',value:'HTTP Resource Tool'},{label:'H1 to H6 Header Tool',value:'H1 to H6 Header Tool'},{label:'Meta Tag Tool',value:'Meta Tag Tool'},{label:'HTTP Response Headers Tool',value:'HTTP Response Headers Tool'}]}),r=await a.show();if('Link Tool'===r)listofObject=document.links,tableschema={'Link URL':'href','Link Text':'innerText','Link outerHTML':'outerHTML','Link attributes':'attributes'};else if('Image Tool'===r)listofObject=document.images,tableschema={'Image URL':'src',Image:e=>'<IMG width=\'200\' src=\''+e.src.trim()+'\'>','Image Height':'height','Image Width':'width','Image Alt':'alt','Image Loading':'loading','Image srcset':'srcset','Image sizes':'sizes','Image attributes':'attributes'};else if('Background Image Tool'===r)listofObject=function(){const e=[];return document.querySelectorAll('*').forEach((t=>{const o=getComputedStyle(t).backgroundImage;if(!o||'none'===o)return;const n=o.match(/url\((['"]?)(.*?)\1\)/g);n&&n.forEach((n=>{e.push({element:t,url:n.replace(/url\((['"]?)(.*?)\1\)/,'$2'),cssText:o,tagName:t.tagName,className:t.className||'',id:t.id||''})}))})),e}(),tableschema={'Image URL':'url',Image:e=>'<IMG width=\'200\' src=\''+e.url.trim()+'\'>','CSS Text':'cssText',ID:'id',tagName:'tagName',className:'className'};else if('Cookie Tool'===r)listofObject=function(e){const t=[];return Object.keys(e).forEach(((o,n)=>{const l={name:o,value:e[o]};t.push(l),t[n]=l,o in t||(t[o]=l)})),Object.defineProperties(t,{length:{value:t.length,writable:!1},item:{value(e){return this[e]||null}},namedItem:{value(e){return this[e]||null}}}),t}(document.cookie?document.cookie.split('; ').reduce(((e,t)=>{const o=t.indexOf('=');if(-1===o)return e;const n=t.slice(0,o).trim(),l=t.slice(o+1);try{e[n]=decodeURIComponent(l)}catch{e[n]=l}return e}),{}):{}),tableschema={'Cookie Name':'name','Cookie Value':'value'};else if('Script Tool'===r)listofObject=document.scripts,tableschema={'Script id':'id','Script src':'src','Script async':'async','Script outerText':'outerText'};else if('HTTP Resource Tool'===r)listofObject=performance.getEntriesByType('resource'),tableschema={'Resource Type':'initiatorType','Resource Name':'name'};else if('H1 to H6 Header Tool'===r)listofObject=function(){let e=new Array,t=Array.from(document.getElementsByTagName('H1')),o=Array.from(document.getElementsByTagName('H2')),n=Array.from(document.getElementsByTagName('H3')),l=Array.from(document.getElementsByTagName('H4')),i=Array.from(document.getElementsByTagName('H5')),a=Array.from(document.getElementsByTagName('H6'));return e=t.concat(o).concat(n).concat(l).concat(i).concat(a),e}(),tableschema={Name:'tagName',Content:e=>e.innerText.trim(),'Content Length':e=>e.innerText.trim().length};else if('Meta Tag Tool'===r)listofObject=document.querySelectorAll('meta[name]'),tableschema={Name:e=>e.attributes.name.value,Content:e=>String(e.attributes.content.value).trim(),'Content Length':e=>String(e.attributes.content.value).trim().length};else{if('HTTP Response Headers Tool'!==r)return void alert('User has clicked \'Cancel\'');{let e=function(e){let t,o=new XMLHttpRequest;o.open('HEAD',e,!1);try{o.send()}catch(e){}return o.onload=function(){t=o.getAllResponseHeaders()},o.onload(),t}(location.href);listofObject=e.split('\n'),listofObject.pop(),tableschema={'Item-value Pair':e=>e}}}const s=new o({'Page URL':location.href,'Page Title':document.title,'Page Title Length':document.title.trim().length,'Tool choice':r},'WLA Web Page SEO Toolset');let c=location.href+'_'+r+'.csv',m=s.displayPageHeaders();m+=new l(tableschema,listofObject).render(c),m+=s.displayPageFooters(),t.openWithHTML(m)}})();
+(async()=>{if(["RadioChoicePopup","BrowserTab","PageProperty","ListofObj_Base","ListofObj_to_Table","ListofObj_to_DelimitedText"].every(k=>typeof globalThis[k]==="undefined")){function sanitizeFileName(input,options={}){const{replacement="_",maxLength=255}=options;if(!input||typeof input!=="string"){return"file";}
+let name=input.normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[\x00-\x1F]/g,"").replace(/[\\\/:*?"<>|]/g,replacement).replace(/\s+/g," ").trim();name=name.replace(/[. ]+$/,"");if(!name){name="file";}
+const windowsReserved=/^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i;if(windowsReserved.test(name)){name=`${name}_file`;}
+if(name.length>maxLength){const extMatch=name.match(/(\.[^.]+)$/);const ext=extMatch?extMatch[1]:"";const base=name.slice(0,maxLength-ext.length);name=base+ext;}
+return name;}
+function resolvePath(root,path){return path.split(".").reduce((acc,key)=>acc&&acc[key],root);}
+function getCookieObject(){if(!document.cookie){return{};}
+return document.cookie.split("; ").reduce((acc,cookie)=>{const separatorIndex=cookie.indexOf("=");if(separatorIndex===-1){return acc;}
+const name=cookie.slice(0,separatorIndex).trim();const value=cookie.slice(separatorIndex+1);try{acc[name]=decodeURIComponent(value);}catch{acc[name]=value;}
+return acc;},{});}
+function cookiesToCollection(cookieObject){const collection=[];Object.keys(cookieObject).forEach((name,index)=>{const item={name,value:cookieObject[name]};collection.push(item);collection[index]=item;if(!(name in collection)){collection[name]=item;}});Object.defineProperties(collection,{length:{value:collection.length,writable:false},item:{value(index){return this[index]||null;}},namedItem:{value(name){return this[name]||null;}}});return collection;}
+function getallH1toH6(){let arrallH=new Array();let arrH1=Array.from(document.getElementsByTagName("H1"));let arrH2=Array.from(document.getElementsByTagName("H2"));let arrH3=Array.from(document.getElementsByTagName("H3"));let arrH4=Array.from(document.getElementsByTagName("H4"));let arrH5=Array.from(document.getElementsByTagName("H5"));let arrH6=Array.from(document.getElementsByTagName("H6"));arrallH=arrH1.concat(arrH2).concat(arrH3).concat(arrH4).concat(arrH5).concat(arrH6);return arrallH;}
+function returnHTTPAllResponseHeaders(url){let strOutput;let xmlHttp=new XMLHttpRequest();xmlHttp.open("HEAD",url,false);try{xmlHttp.send();}catch(e){console.log("Error: "+e);}
+xmlHttp.onload=function(){strOutput=xmlHttp.getAllResponseHeaders();};xmlHttp.onload();return strOutput;}
+function getBackgroundImages(){const list=[];document.querySelectorAll("*").forEach(el=>{const style=getComputedStyle(el);const bg=style.backgroundImage;if(!bg||bg==="none")
+return;const urls=bg.match(/url\((['"]?)(.*?)\1\)/g);if(!urls)
+return;urls.forEach(entry=>{list.push({element:el,url:entry.replace(/url\((['"]?)(.*?)\1\)/,"$2"),cssText:bg,tagName:el.tagName,className:el.className||"",id:el.id||""});});});return list;}
+class RadioChoicePopup{constructor({title="Choose an option",message="",options=[{label:"Option A",value:"A"},{label:"Option B",value:"B"}]}={}){this.title=title;this.message=message;this.options=options;this.id="radio-choice-popup";}
+show(){return new Promise((resolve)=>{const existing=document.getElementById(this.id);if(existing){existing.remove();}
+const overlay=document.createElement("div");overlay.id=this.id;overlay.innerHTML=`
+
+        <div style="
+
+          position:fixed;
+
+          inset:0;
+
+          background:rgba(0,0,0,0.45);
+
+          display:flex;
+
+          align-items:center;
+
+          justify-content:center;
+
+          z-index:2147483647;
+
+          font-family:Arial,sans-serif;
+
+        ">
+
+          <div style="
+
+            background:#fff;
+
+            padding:16px 18px;
+
+            width:320px;
+
+            border-radius:8px;
+
+            box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+          ">
+
+            <div style="font-size:16px;font-weight:bold;margin-bottom:8px;">
+
+              ${this.title}
+
+            </div>
+
+
+
+            ${
+
+                        this.message
+
+                         ? `<div style="margin-bottom:10px;font-size:13px;">${this.message}</div>`
+
+                         : ""
+
+}
+
+
+
+            <form id="rcp-form">
+
+              ${
+
+                        this.options
+
+                        .map(
+
+                            (opt, index) => `<label style="display:block;margin:6px 0;font-size:13px;"><input
+type="radio"
+name="rcp"
+value="${opt.value}"
+${index===0?"checked":""}>${opt.label}</label>`)
+
+                        .join("")
+
+}
+
+
+
+              <div style="margin-top:12px;text-align:right;">
+
+                <button type="button" id="rcp-cancel">Cancel</button>
+
+                <button type="submit" style="margin-left:8px;">OK</button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      `;document.body.appendChild(overlay);const cleanup=(result)=>{overlay.remove();resolve(result);};overlay.querySelector("#rcp-cancel").onclick=()=>{cleanup(null);};overlay.querySelector("#rcp-form").onsubmit=(event)=>{event.preventDefault();const selected=overlay.querySelector('input[name="rcp"]:checked');cleanup(selected?selected.value:null);};});}}
+class BrowserTab{static openWithHTML(htmlContent,windowName="_blank"){const win=window.open("",windowName);if(!win){alert("Popup blocked. Please allow popups for this site.");return;}
+try{win.document.open();win.document.write(htmlContent);win.document.close();win.focus();}catch(error){console.error("BrowserTab error:",error);}}}
+class PageProperty{pageTitle="";objProperty={};constructor(objProperty,pageTitle=""){this.pageTitle=pageTitle;this.objProperty=objProperty;}
+displayPageHeaders(){let strHeader=this.pageTitle;let strOutput="<TITLE>"+strHeader+"</TITLE>";strOutput+="<H1>"+strHeader+"</H1>";for(let key in this.objProperty){strOutput+="<STRONG>"+key+"</STRONG>: ";strOutput+=PageProperty.formatObjvalues(this.objProperty[key])+"<BR>";}
+strOutput+="<BR>";return strOutput;}
+displayPageFooters(){return`
+
+                    <BR><BR>
+
+                    <DIV style='text-align: center;'>
+
+                        <CITE>Copyright: (c) 2026, Washington Alto</CITE>
+
+                    </DIV>
+
+                `;}
+static isValidHttpUrl(strTest){try{const url=new URL(strTest);return url.protocol==="http:"||url.protocol==="https:";}catch(_){return false;}}
+static formatObjvalues(strCellinput){const tagsToReplace={"&":"&amp;","<":"&lt;",">":"&gt;"};const replaceTag=tag=>tagsToReplace[tag]||tag;const safe_tags_replace=str=>str.replace(/[&<>]/g,replaceTag);let strOutput;if(PageProperty.isValidHttpUrl(strCellinput)){strOutput=`
+
+                        <A HREF="${strCellinput}" target="_blank">
+
+                            ${decodeURIComponent(strCellinput)}
+
+                        </A>
+
+                    `;}else{strOutput=strCellinput==null||String(strCellinput).trim().length===0?"":safe_tags_replace(String(strCellinput).trim());}
+return strOutput;}}
+class ListofObj_Base{header=["No."];fields=[];collection=[];schema=[];title="";constructor(schema,collection){this.header=this.header.concat(Object.keys(schema));this.fields=Object.values(schema);this.collection=collection;this.schema=schema;}
+setTitle(title=""){this.title=title;}
+resolveField(objItem,resolver){if(typeof resolver==="function"){return resolver(objItem);}
+return resolvePath(objItem,resolver);}
+buildRows(){const rows=[];for(let i=0;i<this.collection.length;i++){const objItem=this.collection[i];const row=this.fields.map(resolver=>this.resolveField(objItem,resolver));rows.push([i+1,...row]);}
+return rows;}
+static formatValue(value){if(value==null)
+return"";if(typeof value==="object"){return Array.from(value).map(v=>`${v.name}: ${v.value}`).join("; ");}
+return String(value).trim();}}
+class ListofObj_to_Table extends ListofObj_Base{objCSV="";static tableStyle(headerBackgroundColor="#FFC107"){return`
+
+      <STYLE>
+
+        table, th, td {
+
+          border: 1px solid #9E9E9E;
+
+          border-collapse: collapse;
+
+        }
+
+        th { background: ${headerBackgroundColor}; }
+
+      </STYLE>
+
+    `;}
+render(csvFileName="download.csv"){let html="";if(this.title){html+=`<H1>${this.title}</H1>`;}
+html+=ListofObj_to_Table.tableStyle();html+="<TABLE><TR>";this.header.forEach(h=>html+=`<TH>${h}</TH>`);html+="</TR>";const rows=this.buildRows();rows.forEach(row=>{html+="<TR>";row.forEach(cell=>{html+=`<TD>${ListofObj_Base.formatValue(cell)}</TD>`;});html+="</TR>";});html+="</TABLE><BR>";const objDelimTxt=new ListofObj_to_DelimitedText(this.schema,this.collection,{columnDelimiter:",",rowDelimiter:"\r\n"});this.objCSV=objDelimTxt.render();html+=ListofObj_to_Table.createCSVBloblink(this.objCSV,csvFileName);return html;}
+static createCSVBloblink(objCSV,csvFileName="download.csv"){let linkText="Download as CSV";let objCSVBlob=new Blob([objCSV],{type:"text/csv"});let csvURL=window.URL.createObjectURL(objCSVBlob);let HTMLlink='<A href="'+
+csvURL+'" download="'+
+csvFileName+'">'+
+linkText+"</A>";return HTMLlink;}}
+class ListofObj_to_DelimitedText extends ListofObj_Base{constructor(schema,collection,options={}){super(schema,collection);this.columnDelimiter=options.columnDelimiter??",";this.rowDelimiter=options.rowDelimiter??"<BR>";}
+render(){let output="";if(this.title){output+=`<STRONG>${this.title}</STRONG>`+this.rowDelimiter;}
+output+=this.header.join(this.columnDelimiter)+
+this.rowDelimiter;const rows=this.buildRows();rows.forEach(row=>{output+=row.map(v=>ListofObj_Base.formatValue(ListofObj_to_DelimitedText.escapeForCSV(ListofObj_to_DelimitedText.formatCSVcellvalues(v)))).join(this.columnDelimiter)+
+this.rowDelimiter;});return output;}
+static escapeForCSV(inputString){if(/[",\n]/.test(inputString)){return'"'+inputString.replace(/"/g,'""')+'"';}
+return inputString;}
+static formatCSVcellvalues(strCellinput){function CSVlistAttributes(arr){let strOutput="";for(let i=0;i<arr.length;i++){strOutput+=arr[i].name+": "+arr[i].value+";\n\r";}
+return strOutput;}
+let strOutput;if(typeof strCellinput==="object"){strOutput=CSVlistAttributes(strCellinput);}else{strOutput=String(strCellinput).trim();}
+return strOutput;}}
+const popup=new RadioChoicePopup({title:"SEO Web Page SEO Toolset",message:"Select the bookmarklet tool:",options:[{label:"Link Tool",value:"Link Tool"},{label:"Image Tool",value:"Image Tool"},{label:"Background Image Tool",value:"Background Image Tool"},{label:"Link Tag Tool",value:"Link Tag Tool"},{label:"Cookie Tool",value:"Cookie Tool"},{label:"Script Tool",value:"Script Tool"},{label:"HTTP Resource Tool",value:"HTTP Resource Tool"},{label:"H1 to H6 Header Tool",value:"H1 to H6 Header Tool"},{label:"Meta Tag Tool",value:"Meta Tag Tool"},{label:"HTTP Response Headers Tool",value:"HTTP Response Headers Tool"}]});const choice=await popup.show();if(choice==="Link Tool"){listofObject=document.links;tableschema={"Link URL":"href","Link Text":"innerText","Link outerHTML":"outerHTML","Link attributes":"attributes"};}else if(choice==="Image Tool"){listofObject=document.images;tableschema={"Image URL":"src","Image":el=>"<IMG width='200' src='"+el.src.trim()+"'>","Image Height":"height","Image Width":"width","Image Alt":"alt","Image Loading":"loading","Image srcset":"srcset","Image sizes":"sizes","Image attributes":"attributes"};}else if(choice==="Background Image Tool"){listofObject=getBackgroundImages();tableschema={"Image URL":"url","Image":el=>"<IMG width='200' src='"+el.url.trim()+"'>","CSS Text":"cssText","ID":"id","tagName":"tagName","className":"className"};}else if(choice==="Link Tag Tool"){listofObject=document.querySelectorAll("link");tableschema={"Rel":"rel","Href":"href","Attributes":"attributes"};}else if(choice==="Cookie Tool"){listofObject=cookiesToCollection(getCookieObject());tableschema={"Cookie Name":"name","Cookie Value":"value"};}else if(choice==="Script Tool"){listofObject=document.scripts;tableschema={"Script id":"id","Script src":"src","Script async":"async","Script outerText":"outerText"};}else if(choice==="HTTP Resource Tool"){listofObject=performance.getEntriesByType("resource");tableschema={"Resource Type":"initiatorType","Resource Name":"name"};}else if(choice==="H1 to H6 Header Tool"){listofObject=getallH1toH6();tableschema={"Name":"tagName","Content":el=>el.innerText.trim(),"Content Length":el=>el.innerText.trim().length};}else if(choice==="Meta Tag Tool"){listofObject=document.querySelectorAll("meta[name]");tableschema={"Name":el=>el.attributes.name.value,"Content":el=>String(el.attributes.content.value).trim(),"Content Length":el=>String(el.attributes.content.value).trim().length};}else if(choice==="HTTP Response Headers Tool"){let responsetext=returnHTTPAllResponseHeaders(location.href);listofObject=responsetext.split("\n");listofObject.pop();tableschema={"Item-value Pair":el=>el,};}else{alert("User has clicked 'Cancel'");return;}
+const page=new PageProperty({"Page URL":location.href,"Page Title":document.title,"Page Title Length":document.title.trim().length,"Tool choice":choice},"WLA Web Page SEO Toolset");let csvFileName=location.href+"_"+choice+".csv";let html=page.displayPageHeaders();const htmlTable=new ListofObj_to_Table(tableschema,listofObject);html+=htmlTable.render(csvFileName);html+=page.displayPageFooters();BrowserTab.openWithHTML(html);}})();
