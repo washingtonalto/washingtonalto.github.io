@@ -969,6 +969,9 @@
                     label: "Cookie Tool",
                     value: "Cookie Tool"
                 }, {
+                    label: "Inline CSS Tool",
+                    value: "Inline CSS Tool"
+                }, {
                     label: "Script Tool",
                     value: "Script Tool"
                 }, {
@@ -1040,6 +1043,13 @@
             tableschema = {
                 "Cookie Name": "name",
                 "Cookie Value": "value"
+            };
+
+        } else if (choice === "Inline CSS Tool") {
+
+            listofObject = document.querySelectorAll("style");
+            tableschema = {
+                "Style outerText": el => el.outerText
             };
 
         } else if (choice === "Script Tool") {
