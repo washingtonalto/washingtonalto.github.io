@@ -1,0 +1,359 @@
+=== Starting script: GenerateFamilyTree-Graphviz-ver9.py === 
+Start Time: Fri 01/30/2026 11:28:38.12 
+Arguments: GenerateFamilyTree-Graphviz-ver9.py logs 
+ 
+Running: C:\ProgramData\anaconda3\python.exe GenerateFamilyTree-Graphviz-ver9.py GenerateFamilyTree-Graphviz-ver9.py logs 
+Family tree generated: output\alto_family_tree.svg
+Total persons in tree: 79
+Number of generations: 4
+Family tree generated: output\alto_family_tree.png
+Total persons in tree: 79
+Number of generations: 4
+
+Graphviz DOT Source:
+digraph DescendantTree {
+	bgcolor=white fontname=Helvetica nodesep=0.5 rankdir=TB ranksep=1.2 splines=ortho
+	node [fillcolor="#F9F9F9" fontname=Helvetica fontsize=10 margin="0.08,0.05" shape=box style="rounded,filled"]
+	edge [arrowhead=none color="#555555"]
+	subgraph cluster_legend {
+		fontsize=10 label=Legend rank=same style=dashed
+		legend_male [label=Male fillcolor="#CFE8FF"]
+		legend_female [label=Female fillcolor="#FFD6E7"]
+		legend_union [label="" shape=point width=0.01]
+		{
+			rank=same
+			legend_male
+			legend_female
+			legend_union
+		}
+		legend_male -> legend_union [color="#FFB6C6"]
+		legend_union -> legend_female [color="#FFB6C6"]
+	}
+	p1 [label="Jose G. Alto" fillcolor="#CFE8FF"]
+	p2 [label="Josefa D. Alto" fillcolor="#FFD6E7"]
+	u0 [label="" height=0.01 shape=point width=0.01]
+	p2 -> u0 [color="#FFB6C6" constraints=true]
+	u0 -> p1 [color="#FFB6C6" constraint=true]
+	{
+		rank=same
+		p1
+		p2
+		u0
+	}
+	p12 [label="Raul Zano" fillcolor="#CFE8FF"]
+	p13 [label="Lydia A. Zano" fillcolor="#FFD6E7"]
+	p8 [label="Jesse D. Alto" fillcolor="#CFE8FF"]
+	p9 [label="Michelle L. Alto" fillcolor="#FFD6E7"]
+	p18 [label="Thongbue Wongbandue" fillcolor="#CFE8FF"]
+	p19 [label="Linda A. Wongbandue" fillcolor="#FFD6E7"]
+	p4 [label="Jose D. Alto Jr." fillcolor="#CFE8FF"]
+	p5 [label="Clara de Vera Alto" fillcolor="#FFD6E7"]
+	p14 [label="Josue D. Alto" fillcolor="#CFE8FF"]
+	p15 [label="Angelina Alto" fillcolor="#FFD6E7"]
+	p10 [label="Jimmy D. Alto" fillcolor="#CFE8FF"]
+	p11 [label="Ma. Piedad C. Alto" fillcolor="#FFD6E7"]
+	p6 [label="Job D. Alto" fillcolor="#CFE8FF"]
+	p7 [label="Romulita C. Alto" fillcolor="#FFD6E7"]
+	p16 [label="Joseph D. Alto" fillcolor="#CFE8FF"]
+	p17 [label="Loida H. Alto" fillcolor="#FFD6E7"]
+	p3 [label="Leticia D. Alto" fillcolor="#FFD6E7"]
+	u1 [label="" height=0.01 shape=point width=0.01]
+	p13 -> u1 [color="#FFB6C6" constraints=true]
+	u1 -> p12 [color="#FFB6C6" constraint=true]
+	u2 [label="" height=0.01 shape=point width=0.01]
+	p8 -> u2 [color="#FFB6C6" constraints=true]
+	u2 -> p9 [color="#FFB6C6" constraint=true]
+	u3 [label="" height=0.01 shape=point width=0.01]
+	p19 -> u3 [color="#FFB6C6" constraints=true]
+	u3 -> p18 [color="#FFB6C6" constraint=true]
+	u4 [label="" height=0.01 shape=point width=0.01]
+	p4 -> u4 [color="#FFB6C6" constraints=true]
+	u4 -> p5 [color="#FFB6C6" constraint=true]
+	u5 [label="" height=0.01 shape=point width=0.01]
+	p14 -> u5 [color="#FFB6C6" constraints=true]
+	u5 -> p15 [color="#FFB6C6" constraint=true]
+	u6 [label="" height=0.01 shape=point width=0.01]
+	p10 -> u6 [color="#FFB6C6" constraints=true]
+	u6 -> p11 [color="#FFB6C6" constraint=true]
+	u7 [label="" height=0.01 shape=point width=0.01]
+	p6 -> u7 [color="#FFB6C6" constraints=true]
+	u7 -> p7 [color="#FFB6C6" constraint=true]
+	u8 [label="" height=0.01 shape=point width=0.01]
+	p16 -> u8 [color="#FFB6C6" constraints=true]
+	u8 -> p17 [color="#FFB6C6" constraint=true]
+	{
+		rank=same
+		p12
+		p13
+		p8
+		p9
+		p18
+		p19
+		p4
+		p5
+		p14
+		p15
+		p10
+		p11
+		p6
+		p7
+		p16
+		p17
+		p3
+		u1
+		u2
+		u3
+		u4
+		u5
+		u6
+		u7
+		u8
+	}
+	p26 [label="Roland Ira Alto" fillcolor="#CFE8FF"]
+	p27 [label="Merylle U. Alto" fillcolor="#FFD6E7"]
+	p22 [label="Christian Roy Alto" fillcolor="#CFE8FF"]
+	p23 [label="Amelia F. Alto" fillcolor="#FFD6E7"]
+	p49 [label="Joel Adam Alto" fillcolor="#CFE8FF"]
+	p50 [label="Lea Abello Alto" fillcolor="#FFD6E7"]
+	p45 [label="Joey Andrew Alto" fillcolor="#CFE8FF"]
+	p46 [label="Rebecca Reyes Alto" fillcolor="#FFD6E7"]
+	p54 [label="Jason Alto" fillcolor="#CFE8FF"]
+	p55 [label="Amy Hung" fillcolor="#FFD6E7"]
+	p32 [label="Michael Alto" fillcolor="#CFE8FF"]
+	p33 [label="Jaime Alicia H. Alto" fillcolor="#FFD6E7"]
+	p38 [label="Patrick Elliott" fillcolor="#CFE8FF"]
+	p37 [label="Josalyn  Elliott" fillcolor="#FFD6E7"]
+	p28 [label="Philo Alto" fillcolor="#CFE8FF"]
+	p29 [label="Angel Young-Alto" fillcolor="#FFD6E7"]
+	p24 [label="Philip Reginald Alto" fillcolor="#CFE8FF"]
+	p25 [label="Mylene L. Alto" fillcolor="#FFD6E7"]
+	p47 [label="Richard Obilex" fillcolor="#CFE8FF"]
+	p48 [label="Jo Ann Alto-Obilex" fillcolor="#FFD6E7"]
+	p43 [label="Ryan Joy Zano" fillcolor="#CFE8FF"]
+	p44 [label="Riza Joy Zano" fillcolor="#FFD6E7"]
+	p52 [label="Fabian Lim" fillcolor="#CFE8FF"]
+	p53 [label="Grace Ann Lim" fillcolor="#FFD6E7"]
+	p39 [label="Reginald Zano" fillcolor="#CFE8FF"]
+	p40 [label="Angelia Nina Zano" fillcolor="#FFD6E7"]
+	p30 [label="Washington Alto" fillcolor="#CFE8FF"]
+	p31 [label="Marissa N. Alto" fillcolor="#FFD6E7"]
+	p20 [label="Maria Elena Alto" fillcolor="#FFD6E7"]
+	p21 [label="Maria Lourdes Alto" fillcolor="#FFD6E7"]
+	p34 [label="Lysander Alto" fillcolor="#CFE8FF"]
+	p35 [label="Jimmy Jr. Alto" fillcolor="#CFE8FF"]
+	p36 [label="Angelo Alto" fillcolor="#CFE8FF"]
+	p41 [label="Laurenti Raul Zano" fillcolor="#CFE8FF"]
+	p42 [label="Raymond Zano" fillcolor="#CFE8FF"]
+	p51 [label="Jesy Angeli Alto" fillcolor="#FFD6E7"]
+	p56 [label="Jaime Wongbandue" fillcolor="#CFE8FF"]
+	p57 [label="Julie Wongbandue" fillcolor="#FFD6E7"]
+	u9 [label="" height=0.01 shape=point width=0.01]
+	p26 -> u9 [color="#FFB6C6" constraints=true]
+	u9 -> p27 [color="#FFB6C6" constraint=true]
+	u10 [label="" height=0.01 shape=point width=0.01]
+	p22 -> u10 [color="#FFB6C6" constraints=true]
+	u10 -> p23 [color="#FFB6C6" constraint=true]
+	u11 [label="" height=0.01 shape=point width=0.01]
+	p49 -> u11 [color="#FFB6C6" constraints=true]
+	u11 -> p50 [color="#FFB6C6" constraint=true]
+	u12 [label="" height=0.01 shape=point width=0.01]
+	p45 -> u12 [color="#FFB6C6" constraints=true]
+	u12 -> p46 [color="#FFB6C6" constraint=true]
+	u13 [label="" height=0.01 shape=point width=0.01]
+	p54 -> u13 [color="#FFB6C6" constraints=true]
+	u13 -> p55 [color="#FFB6C6" constraint=true]
+	u14 [label="" height=0.01 shape=point width=0.01]
+	p32 -> u14 [color="#FFB6C6" constraints=true]
+	u14 -> p33 [color="#FFB6C6" constraint=true]
+	u15 [label="" height=0.01 shape=point width=0.01]
+	p37 -> u15 [color="#FFB6C6" constraints=true]
+	u15 -> p38 [color="#FFB6C6" constraint=true]
+	u16 [label="" height=0.01 shape=point width=0.01]
+	p28 -> u16 [color="#FFB6C6" constraints=true]
+	u16 -> p29 [color="#FFB6C6" constraint=true]
+	u17 [label="" height=0.01 shape=point width=0.01]
+	p24 -> u17 [color="#FFB6C6" constraints=true]
+	u17 -> p25 [color="#FFB6C6" constraint=true]
+	u18 [label="" height=0.01 shape=point width=0.01]
+	p48 -> u18 [color="#FFB6C6" constraints=true]
+	u18 -> p47 [color="#FFB6C6" constraint=true]
+	u19 [label="" height=0.01 shape=point width=0.01]
+	p43 -> u19 [color="#FFB6C6" constraints=true]
+	u19 -> p44 [color="#FFB6C6" constraint=true]
+	u20 [label="" height=0.01 shape=point width=0.01]
+	p53 -> u20 [color="#FFB6C6" constraints=true]
+	u20 -> p52 [color="#FFB6C6" constraint=true]
+	u21 [label="" height=0.01 shape=point width=0.01]
+	p39 -> u21 [color="#FFB6C6" constraints=true]
+	u21 -> p40 [color="#FFB6C6" constraint=true]
+	u22 [label="" height=0.01 shape=point width=0.01]
+	p30 -> u22 [color="#FFB6C6" constraints=true]
+	u22 -> p31 [color="#FFB6C6" constraint=true]
+	{
+		rank=same
+		p26
+		p27
+		p22
+		p23
+		p49
+		p50
+		p45
+		p46
+		p54
+		p55
+		p32
+		p33
+		p38
+		p37
+		p28
+		p29
+		p24
+		p25
+		p47
+		p48
+		p43
+		p44
+		p52
+		p53
+		p39
+		p40
+		p30
+		p31
+		p20
+		p21
+		p34
+		p35
+		p36
+		p41
+		p42
+		p51
+		p56
+		p57
+		u9
+		u10
+		u11
+		u12
+		u13
+		u14
+		u15
+		u16
+		u17
+		u18
+		u19
+		u20
+		u21
+		u22
+	}
+	p58 [label="Denice Alto" fillcolor="#FFD6E7"]
+	p59 [label="Nicolas Miles Alto" fillcolor="#CFE8FF"]
+	p60 [label="Ava Margaux Alto" fillcolor="#FFD6E7"]
+	p61 [label="Tifanny Claire " fillcolor="#FFD6E7"]
+	p62 [label="Matthew Ira James" fillcolor="#CFE8FF"]
+	p63 [label="Brandon Alto" fillcolor="#CFE8FF"]
+	p64 [label="Harold Wilson Alto" fillcolor="#CFE8FF"]
+	p65 [label="Sophia Joy Alto" fillcolor="#FFD6E7"]
+	p66 [label="Noah Michael Alto" fillcolor="#CFE8FF"]
+	p67 [label="Marina Alto" fillcolor="#FFD6E7"]
+	p68 [label="Alexander Adam Alto" fillcolor="#CFE8FF"]
+	p69 [label="Jayson Jordan Alto" fillcolor="#CFE8FF"]
+	p70 [label="Dianne Joy Zano" fillcolor="#FFD6E7"]
+	p71 [label="Arlene Reese Alto" fillcolor="#FFD6E7"]
+	p72 [label="Arden Rhyle" fillcolor="#CFE8FF"]
+	p73 [label="Janiyah Obilex" fillcolor="#FFD6E7"]
+	p74 [label="Justin Lhance Alto" fillcolor="#CFE8FF"]
+	p75 [label="Joshua Landice Alto" fillcolor="#CFE8FF"]
+	p76 [label="Jairo Leslie Alto" fillcolor="#CFE8FF"]
+	p77 [label="Lyza Joelie Alto" fillcolor="#FFD6E7"]
+	p78 [label="Ryder Garland" fillcolor="#FFD6E7"]
+	p79 [label="Alexis Mai Lim" fillcolor="#FFD6E7"]
+	{
+		rank=same
+		p58
+		p59
+		p60
+		p61
+		p62
+		p63
+		p64
+		p65
+		p66
+		p67
+		p68
+		p69
+		p70
+		p71
+		p72
+		p73
+		p74
+		p75
+		p76
+		p77
+		p78
+		p79
+	}
+	u0 -> p3 [constraint=true]
+	u0 -> p4 [constraint=true]
+	u0 -> p6 [constraint=true]
+	u0 -> p8 [constraint=true]
+	u0 -> p10 [constraint=true]
+	u0 -> p13 [constraint=true]
+	u0 -> p14 [constraint=true]
+	u0 -> p16 [constraint=true]
+	u0 -> p19 [constraint=true]
+	u4 -> p20 [constraint=true]
+	u4 -> p21 [constraint=true]
+	u7 -> p22 [constraint=true]
+	u7 -> p24 [constraint=true]
+	u7 -> p26 [constraint=true]
+	u2 -> p28 [constraint=true]
+	u2 -> p30 [constraint=true]
+	u6 -> p32 [constraint=true]
+	u6 -> p34 [constraint=true]
+	u6 -> p35 [constraint=true]
+	u6 -> p36 [constraint=true]
+	u6 -> p37 [constraint=true]
+	u1 -> p39 [constraint=true]
+	u1 -> p41 [constraint=true]
+	u1 -> p42 [constraint=true]
+	u1 -> p43 [constraint=true]
+	u5 -> p45 [constraint=true]
+	u5 -> p48 [constraint=true]
+	u5 -> p49 [constraint=true]
+	u5 -> p51 [constraint=true]
+	u8 -> p53 [constraint=true]
+	u8 -> p54 [constraint=true]
+	u3 -> p56 [constraint=true]
+	u3 -> p57 [constraint=true]
+	u10 -> p58 [constraint=true]
+	u10 -> p59 [constraint=true]
+	u17 -> p60 [constraint=true]
+	u9 -> p61 [constraint=true]
+	u9 -> p62 [constraint=true]
+	u16 -> p63 [constraint=true]
+	u22 -> p64 [constraint=true]
+	u22 -> p65 [constraint=true]
+	u14 -> p66 [constraint=true]
+	p35 -> p67 [constraint=true]
+	p35 -> p68 [constraint=true]
+	p35 -> p69 [constraint=true]
+	u21 -> p70 [constraint=true]
+	u12 -> p71 [constraint=true]
+	u12 -> p72 [constraint=true]
+	u18 -> p73 [constraint=true]
+	u11 -> p74 [constraint=true]
+	u11 -> p75 [constraint=true]
+	u11 -> p76 [constraint=true]
+	u11 -> p77 [constraint=true]
+	p51 -> p78 [constraint=true]
+	u20 -> p79 [constraint=true]
+}
+
+DOT source saved to: output\alto_family_dotfile.txt
+To render manually: dot -Tsvg output\alto_family_dotfile.txt -o output.svg
+Interactive HTML generated: output\alto_family_tree.html
+Open in browser to view with zoom/pan controls
+Keyboard shortcuts: +/- (zoom), 0 (reset), P (toggle pan mode)
+Family data exported to output\alto_family_data.json
+ 
+End Time: Fri 01/30/2026 11:28:40.96 
+=== Script completed === 
