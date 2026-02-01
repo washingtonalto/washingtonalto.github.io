@@ -1,3 +1,16 @@
+=== Starting script: GenerateFamilyTree-Graphviz-ver9.py === 
+Start Time: Sun 02/01/2026 13:22:08.09 
+Arguments: GenerateFamilyTree-Graphviz-ver9.py logs 
+ 
+Running: C:\ProgramData\anaconda3\python.exe GenerateFamilyTree-Graphviz-ver9.py GenerateFamilyTree-Graphviz-ver9.py logs 
+Family tree generated: output\alto_family_tree.svg
+Total persons in tree: 83
+Number of generations: 4
+Family tree generated: output\alto_family_tree.png
+Total persons in tree: 83
+Number of generations: 4
+
+Graphviz DOT Source:
 digraph DescendantTree {
 	bgcolor=white fontname=Helvetica nodesep=0.5 rankdir=TB ranksep=1.2 splines=ortho
 	node [fillcolor="#F9F9F9" fontname=Helvetica fontsize=10 margin="0.08,0.05" shape=box style="rounded,filled"]
@@ -349,3 +362,13 @@ digraph DescendantTree {
 	u21 -> p82 [constraint=true]
 	u13 -> p83 [constraint=true]
 }
+
+DOT source saved to: output\alto_family_dotfile.txt
+To render manually: dot -Tsvg output\alto_family_dotfile.txt -o output.svg
+Interactive HTML generated: output\alto_family_tree.html
+Open in browser to view with zoom/pan controls
+Keyboard shortcuts: +/- (zoom), 0 (reset), P (toggle pan mode)
+Family data exported to output\alto_family_data.json
+ 
+End Time: Sun 02/01/2026 13:22:13.26 
+=== Script completed === 
