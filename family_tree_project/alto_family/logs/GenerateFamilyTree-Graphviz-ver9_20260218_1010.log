@@ -1,3 +1,16 @@
+=== Starting script: GenerateFamilyTree-Graphviz-ver9.py === 
+Start Time: Wed 02/18/2026 10:10:20.26 
+Arguments: GenerateFamilyTree-Graphviz-ver9.py logs 
+ 
+Running: C:\ProgramData\anaconda3\python.exe GenerateFamilyTree-Graphviz-ver9.py GenerateFamilyTree-Graphviz-ver9.py logs 
+Family tree generated: output\alto_family_tree.svg
+Total persons in tree: 78
+Number of generations: 4
+Family tree generated: output\alto_family_tree.png
+Total persons in tree: 78
+Number of generations: 4
+
+Graphviz DOT Source:
 digraph DescendantTree {
 	bgcolor=white fontname=Helvetica nodesep=0.5 rankdir=TB ranksep=1.2 splines=ortho
 	node [fillcolor="#F9F9F9" fontname=Helvetica fontsize=10 margin="0.08,0.05" shape=box style="rounded,filled"]
@@ -120,8 +133,6 @@ digraph DescendantTree {
 	p57 [label="Nita Nash Wongbandue" fillcolor="#FFD6E7"]
 	p52 [label="Fabian Lim" fillcolor="#CFE8FF"]
 	p53 [label="Grace Ann Alto" fillcolor="#FFD6E7"]
-	p48 [label="Richard Obiles" fillcolor="#CFE8FF"]
-	p49 [label="Jo-Ann Alto" fillcolor="#FFD6E7"]
 	p34 [label="Lysander Alto" fillcolor="#CFE8FF"]
 	p35 [label="Suzanne Alto" fillcolor="#FFD6E7"]
 	p30 [label="Washington Alto" fillcolor="#CFE8FF"]
@@ -132,6 +143,7 @@ digraph DescendantTree {
 	p37 [label="Angelo Alto" fillcolor="#CFE8FF"]
 	p42 [label="Laurenti Raul Zano" fillcolor="#CFE8FF"]
 	p43 [label="Raymond Zano" fillcolor="#CFE8FF"]
+	p49 [label="Jo-Ann Alto" fillcolor="#FFD6E7"]
 	p50 [label="Joel Adam Alto" fillcolor="#CFE8FF"]
 	p51 [label="Jesy Angeli Alto" fillcolor="#FFD6E7"]
 	p58 [label="Julie Wongbandue" fillcolor="#FFD6E7"]
@@ -172,14 +184,11 @@ digraph DescendantTree {
 	p53 -> u20 [color="#FFB6C6" constraints=true]
 	u20 -> p52 [color="#FFB6C6" constraint=true]
 	u21 [label="" height=0.01 shape=point width=0.01]
-	p49 -> u21 [color="#FFB6C6" constraints=true]
-	u21 -> p48 [color="#FFB6C6" constraint=true]
+	p34 -> u21 [color="#FFB6C6" constraints=true]
+	u21 -> p35 [color="#FFB6C6" constraint=true]
 	u22 [label="" height=0.01 shape=point width=0.01]
-	p34 -> u22 [color="#FFB6C6" constraints=true]
-	u22 -> p35 [color="#FFB6C6" constraint=true]
-	u23 [label="" height=0.01 shape=point width=0.01]
-	p30 -> u23 [color="#FFB6C6" constraints=true]
-	u23 -> p31 [color="#FFB6C6" constraint=true]
+	p30 -> u22 [color="#FFB6C6" constraints=true]
+	u22 -> p31 [color="#FFB6C6" constraint=true]
 	{
 		rank=same
 		p26
@@ -206,8 +215,6 @@ digraph DescendantTree {
 		p57
 		p52
 		p53
-		p48
-		p49
 		p34
 		p35
 		p30
@@ -218,6 +225,7 @@ digraph DescendantTree {
 		p37
 		p42
 		p43
+		p49
 		p50
 		p51
 		p58
@@ -235,7 +243,6 @@ digraph DescendantTree {
 		u20
 		u21
 		u22
-		u23
 	}
 	p59 [label="Denice Alto" fillcolor="#FFD6E7"]
 	p60 [label="Nicolas Miles Alto" fillcolor="#CFE8FF"]
@@ -252,15 +259,11 @@ digraph DescendantTree {
 	p71 [label="Dianne Joy Zano" fillcolor="#FFD6E7"]
 	p72 [label="Arwen Reese Alto" fillcolor="#FFD6E7"]
 	p73 [label="Aiden Rhyle" fillcolor="#CFE8FF"]
-	p74 [label="Janiyah Ruisse Obiles" fillcolor="#FFD6E7"]
 	p75 [label="Justin Lhance Alto" fillcolor="#CFE8FF"]
 	p76 [label="Joshua Landice Alto" fillcolor="#CFE8FF"]
 	p77 [label="Jairo Leslie Alto" fillcolor="#CFE8FF"]
 	p78 [label="Lyza Joelie Alto" fillcolor="#FFD6E7"]
 	p79 [label="Ryder Garland" fillcolor="#FFD6E7"]
-	p80 [label="Alexis Mei Lim" fillcolor="#FFD6E7"]
-	p81 [label="Samara Jia Lim" fillcolor="#FFD6E7"]
-	p82 [label="Tamsyn Jie Lim" fillcolor="#FFD6E7"]
 	p83 [label="Zoe Alto" fillcolor="#FFD6E7"]
 	{
 		rank=same
@@ -279,15 +282,11 @@ digraph DescendantTree {
 		p71
 		p72
 		p73
-		p74
 		p75
 		p76
 		p77
 		p78
 		p79
-		p80
-		p81
-		p82
 		p83
 	}
 	u0 -> p3 [constraint=true]
@@ -329,8 +328,8 @@ digraph DescendantTree {
 	u9 -> p62 [constraint=true]
 	u9 -> p63 [constraint=true]
 	u17 -> p64 [constraint=true]
-	u23 -> p65 [constraint=true]
-	u23 -> p66 [constraint=true]
+	u22 -> p65 [constraint=true]
+	u22 -> p66 [constraint=true]
 	u14 -> p67 [constraint=true]
 	p36 -> p68 [constraint=true]
 	p36 -> p69 [constraint=true]
@@ -338,14 +337,20 @@ digraph DescendantTree {
 	u12 -> p71 [constraint=true]
 	u15 -> p72 [constraint=true]
 	u15 -> p73 [constraint=true]
-	u21 -> p74 [constraint=true]
 	p50 -> p75 [constraint=true]
 	p50 -> p76 [constraint=true]
 	p50 -> p77 [constraint=true]
 	p50 -> p78 [constraint=true]
 	p51 -> p79 [constraint=true]
-	u20 -> p80 [constraint=true]
-	u20 -> p81 [constraint=true]
-	u20 -> p82 [constraint=true]
 	u13 -> p83 [constraint=true]
 }
+
+DOT source saved to: output\alto_family_dotfile.txt
+To render manually: dot -Tsvg output\alto_family_dotfile.txt -o output.svg
+Interactive HTML generated: output\alto_family_tree.html
+Open in browser to view with zoom/pan controls
+Keyboard shortcuts: +/- (zoom), 0 (reset), P (toggle pan mode)
+Family data exported to output\alto_family_data.json
+ 
+End Time: Wed 02/18/2026 10:14:03.38 
+=== Script completed === 
